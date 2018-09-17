@@ -19,6 +19,8 @@ public class ReproApplication {
 
     public static class TestLifeCycle implements SmartLifecycle {
 
+        private boolean isRunning = false;
+
         @Override
         public boolean isAutoStartup() {
             return true;
@@ -31,16 +33,21 @@ public class ReproApplication {
 
         @Override
         public void start() {
+            if (isRunning) {
+                return;
+            }
+            isRunning = true;
             throw new RuntimeException("Something went wrong");
         }
 
         @Override
         public void stop() {
+            isRunning = false;
         }
 
         @Override
         public boolean isRunning() {
-            return false;
+            return isRunning;
         }
 
         @Override
